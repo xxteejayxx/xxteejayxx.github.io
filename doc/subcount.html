@@ -1,0 +1,69 @@
+<html>
+    <head>
+	    <title>Live Count</title>
+        <link rel="stylesheet" href="odometer-theme-car.css" />
+        <script src="odometer.js"></script>
+		<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+
+        <style>
+		.odometer{
+		    font-size: 100px;
+		}
+		</style>
+	</head>
+	
+	<script type="text/javascript">
+	
+	$(document) .ready( function() {
+	
+	    var chanName = "";
+		
+		loadChannel("UCaEk4apVOqy-sFVh3xnpJyw");
+		
+		function loadChannel(name)  {
+		
+		    chanName = name;
+			
+		    var url = 'https://www.googleapis.com/youtube/v3/channels?part=statistics&id='+name+'&key=AIzaSyAEy7vCTMzhNap7uNhDWyIxzV4FeWvWjoE'
+		    $.getJSON(url, function(data) {
+			    $('#odometer').html(data.items[0].statistics.subscriberCount);
+			});
+			
+			var url1 = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&id='+name+'&key=AIzaSyAEy7vCTMzhNap7uNhDWyIxzV4FeWvWjoE'
+		    $.getJSON(url1, function(data){
+			    $('#ytName').html(data.items[0].snippet.title);
+				$('#ytLink').html('<a href=\"http://www.youtube.com/'+ data.items[0].snippet.customUrl + '\">Link</a');
+			});
+		}
+		
+		setInterval( function() {
+		
+		   var url = 'https://www.googleapis.com/youtube/v3/channels?part=statistics&id='+ChanName+'&key=AIzaSyAEy7vCTMzhNap7uNhDWyIxzV4FeWvWjoE'
+		    $.getJSON(url, function(data) {
+			    $('#odometer').html(data.items[0].statistics.subscriberCount);
+			});
+		
+		}, 1000);
+		
+		$('#update').click( function() {
+            loadChannel($('#ChnlName').val());		
+		});
+	    
+	});
+	
+	</script>
+	
+	<body background = "bj.jpg">
+	    <center>
+		    <p id="ytName">ytName</p>
+			<p id="ytLink">ytLink</p>
+			<br>
+		    <div id="odometer" class="odometer">0</div>
+			<br>
+			<br>
+			<br>
+		    <input type="text" id="ChnlName"></input>
+			<button id="update">Submit</button>
+		</center>
+	</body>
+</html>
